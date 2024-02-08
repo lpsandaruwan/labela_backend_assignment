@@ -7,12 +7,12 @@ from autocompany.modules.shared.enum.ProductCategory import ProductCategory
 
 
 class Product(Model):
-    id = AutoField(pk=True)
+    id = AutoField(primary_key=True)
     uid = UUIDField(unique=True, default=uuid.uuid4, editable=False)
     name = CharField(max_length=150, null=False)
     description = TextField(null=True)
     category = CharField(max_length=150, default=ProductCategory.OTHER)
-    price = DecimalField(default=0, null=False)
+    price = DecimalField(default=0, decimal_places=2, max_digits=20, null=False)
     owner = ForeignKey(AppUser, on_delete=CASCADE, null=False)
 
     class Meta:

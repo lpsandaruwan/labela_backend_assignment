@@ -23,4 +23,5 @@ urlpatterns = [
 
     path(f"api/{API_VERSION}/", include('autocompany.modules.app_user_roles.urls')),
     path(f"api/{API_VERSION}/", include('autocompany.modules.app_users.urls')),
+    path(f"api/{API_VERSION}/", include('autocompany.modules.products.urls')),
 ]
