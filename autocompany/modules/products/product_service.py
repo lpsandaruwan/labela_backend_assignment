@@ -24,10 +24,10 @@ def get_all(request):
             products = Product.objects.all()
 
         serializer = ProductSerializer(products, many=True)
-        return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+        return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
 
     except Product.DoesNotExist:
-        return JsonResponse(status=status.HTTP_204_NO_CONTENT)
+        return JsonResponse([], status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['GET'])

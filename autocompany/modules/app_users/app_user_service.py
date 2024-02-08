@@ -2,8 +2,10 @@ from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import api_view
 
+from autocompany.modules.app_user_roles.AppUserRole import AppUserRole
 from autocompany.modules.app_users.AppUser import AppUser
 from autocompany.modules.app_users.AppUserSerializer import AppUserSerializer
+from autocompany.modules.shared.validations import validate_object
 
 
 @api_view(['GET'])
@@ -22,11 +24,18 @@ def get_by_uid(request, uid):
 
 @api_view(['POST'])
 def post(request):
+    app_user_role = validate_object(AppUserRole, request.data['role'], 'AppUserRole')
+
+    # Validate and map role pk to app user object.
+    if not app_user_role:
+        return app_user_role
+    request.data['role'] = app_user_role.id
+
     serializer = AppUserSerializer(data=request.data)
 
     if serializer.is_valid():
-        user = serializer.save()
-        return JsonResponse(AppUserSerializer(user).data, status=status.HTTP_201_CREATED)
+        app_user = serializer.save()
+        return JsonResponse(AppUserSerializer(app_user).data, status=status.HTTP_201_CREATED)
 
     return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

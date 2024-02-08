@@ -26,7 +26,7 @@ def get_all(request):
             cart_items = CartItem.objects.all()
 
         serializer = CartItemSerializer(cart_items, many=True)
-        return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+        return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
 
     except CartItem.DoesNotExist:
         return JsonResponse([], status=status.HTTP_204_NO_CONTENT)
@@ -48,33 +48,30 @@ def get_by_uid(request, uid):
 
 @api_view(['POST'])
 def post(request):
-    serializer = CartItemSerializer(data=request.data, many=True)
+    cart_item_data = request.data
+    app_user = validate_object(AppUser, cart_item_data['app_user'], 'User')
+    if not app_user:
+        return app_user
+
+    product = validate_object(Product, cart_item_data['product'], 'Product')
+    if not product:
+        return product
+
+    cart = validate_object(Cart, cart_item_data['cart'], 'Cart')
+    if not cart:
+        return cart
+
+    # Create the cart item and append it to the list of created cart items
+    cart_item_data['product'] = product.id
+    cart_item_data['app_user'] = app_user.id
+    cart_item_data['cart'] = cart.id
+
+    serializer = CartItemSerializer(data=cart_item_data)
     if serializer.is_valid():
-        cart_items_data = serializer.validated_data
-
-        # Create a list to store the created cart items
-        created_cart_items = []
-
-        for cart_item_data in cart_items_data:
-            app_user = validate_object(AppUser, cart_item_data['app_user'], 'User')
-            if not app_user:
-                return app_user
-
-            product = validate_object(Product, cart_item_data['product'], 'Product')
-            if not product:
-                return product
-
-            cart = validate_object(Cart, cart_item_data['cart'], 'Cart')
-            if not cart:
-                return cart
-
-            # Create the cart item and append it to the list of created cart items
-            cart_item = CartItem.objects.create(app_user=app_user, product=product, cart=cart)
-            created_cart_items.append(cart_item)
-
-        # Serialize the created cart items
-        serializer = CartItemSerializer(created_cart_items, many=True)
-        return JsonResponse(serializer.data, status=status.HTTP_201_CREATED, safe=False)
+        cart_item = serializer.save()
+        amount = product.price * cart_item.quantity
+        update_cart(cart.id, amount)
+        return JsonResponse(CartItemSerializer(cart_item).data, safe=False, status=status.HTTP_201_CREATED)
 
     return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -89,6 +86,27 @@ def patch_by_uid(request, uid):
     serializer = CartItemSerializer(instance, data=request.data, partial=True)
     if serializer.is_valid():
         cart_item = serializer.save()
+        instance = CartItem.objects.select_related('product', 'app_user', 'cart').get(uid=uid)
+        amount = instance.product.price * instance.quantity
+        update_cart(instance.id, amount)
         return JsonResponse(serializer.data, status=status.HTTP_200_OK)
 
     return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+def delete_by_uid(request, uid):
+    try:
+        instance = CartItem.objects.select_related('product', 'app_user', 'cart').get(uid=uid)
+        amount = instance.product.price * instance.quantity
+        update_cart(instance.id, -amount)
+        instance.delete()
+        return JsonResponse({'message': 'Cart Item successfully deleted!'}, status=status.HTTP_200_OK)
+    except CartItem.DoesNotExist:
+        return JsonResponse({'error': 'Cart Item does not exist!'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+def update_cart(cart_id, amount):
+    cart_instance = Cart.objects.get(id=cart_id)
+    cart_instance.total_price += amount
+    cart_instance.save()

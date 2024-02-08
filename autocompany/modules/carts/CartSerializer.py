@@ -6,4 +6,4 @@ from autocompany.modules.carts.Cart import Cart
 class CartSerializer(ModelSerializer):
     class Meta:
         model = Cart
-        fields = ['uid', 'total_price']
+        fields = ['uid', 'total_price', 'app_user']
