@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import api_view
 
+from autocompany.modules.addresses.Address import Address
 from autocompany.modules.app_users.AppUser import AppUser
 from autocompany.modules.carts.Cart import Cart
 from autocompany.modules.orders.Order import Order
@@ -47,19 +48,30 @@ def get_by_uid(request, uid):
 
 @api_view(['POST'])
 def post(request):
-    serializer = OrderSerializer(data=request.data)
+    request_data = request.data
+
+    app_user = validate_object(AppUser, request_data['app_user'], 'AppUser')
+    if not app_user:
+        return app_user
+
+    cart = validate_object(Cart, request_data['cart'], 'Cart')
+    if not cart:
+        return cart
+
+    address = validate_object(Address, request_data['address'], 'Address')
+    if not cart:
+        return cart
+
+    request_data['app_user'] = app_user.id
+    request_data['cart'] = cart.id
+    request_data['address'] = address.id
+
+    serializer = OrderSerializer(data=request_data)
     if serializer.is_valid():
         order_data = serializer.validated_data
-        app_user = validate_object(AppUser, order_data['app_user'], 'User')
-        if not app_user:
-            return app_user
 
-        cart = validate_object(Cart, order_data['cart'], 'Cart')
-        if not cart:
-            return cart
-
-        order = Order.objects.create(app_user=app_user, cart=cart)
-        serializer = OrderSerializer(order, many=True)
+        order = serializer.save()
+        serializer = OrderSerializer(order)
 
         return JsonResponse(serializer.data, status=status.HTTP_201_CREATED, safe=False)
 

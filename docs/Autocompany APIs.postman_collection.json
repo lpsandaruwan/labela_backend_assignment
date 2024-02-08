@@ -1,0 +1,399 @@
+{
+	"info": {
+		"_postman_id": "7d62cf65-b082-4602-9d91-fd38a670a59f",
+		"name": "Autocompany APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11504714"
+	},
+	"item": [
+		{
+			"name": "User Story 2",
+			"item": [
+				{
+					"name": "Get users roles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hostname}}/api/v1.0/app_user_roles",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"api",
+								"v1.0",
+								"app_user_roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Good Customer\",\n    \"email\": \"Customer@gmail.com\",\n    \"role\": \"{{app_user_role_uid}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/api/v1.0/app_users",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"api",
+								"v1.0",
+								"app_users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hostname}}/api/v1.0/products",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"api",
+								"v1.0",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"app_user\": \"{{app_user_uid}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/api/v1.0/carts/create",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"api",
+								"v1.0",
+								"carts",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add item to cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"app_user\": \"{{app_user_uid}}\",\n    \"cart\": \"{{cart_uid}}\",\n    \"product\": \"{{product_uid}}\",\n    \"quantity\": \"2\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/api/v1.0/cartitems/create",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"api",
+								"v1.0",
+								"cartitems",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "```\nAs a client, I want to add a product to my shopping cart, so I can order it at a later stage.\n\n ```"
+		},
+		{
+			"name": "User Story 3",
+			"item": [
+				{
+					"name": "Remove cart item",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{hostname}}/api/v1.0/cartitems/delete/{{cart_item_uid}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"api",
+								"v1.0",
+								"cartitems",
+								"delete",
+								"{{cart_item_uid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View cart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hostname}}/api/v1.0/carts/get/{{cart_uid}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"api",
+								"v1.0",
+								"carts",
+								"get",
+								"{{cart_uid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View cart items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hostname}}/api/v1.0/cartitems?cart={{cart_uid}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"api",
+								"v1.0",
+								"cartitems"
+							],
+							"query": [
+								{
+									"key": "cart",
+									"value": "{{cart_uid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "```\nAs a client, I want to remove a product from my shopping cart, so I can tailor the order to what I actually need\n\n ```"
+		},
+		{
+			"name": "User story 4 & 5",
+			"item": [
+				{
+					"name": "Create address",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"postal_code\": \"10520\",\n    \"street_address\": \"St Pt Lane, Cmb\",\n    \"app_user\": \"{{app_user_uid}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/api/v1.0/addresses/create",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"api",
+								"v1.0",
+								"addresses",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create order",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cart\": \"{{cart_uid}}\",\n    \"app_user\": \"{{app_user_uid}}\",\n    \"address\": \"{{address_uid}}\",\n    \"delivery_date\": \"2024-03-26\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/api/v1.0/orders/create",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"api",
+								"v1.0",
+								"orders",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "``` markdown\nAs a client, I want to remove a product from my shopping cart, so I can tailor the order to what I actually need\n\nAs a client, I want to select a delivery date and time, so I will be there to receive the order\n\n ```"
+		},
+		{
+			"name": "User story 6 & 7",
+			"item": [
+				{
+					"name": "List products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hostname}}/api/v1.0/products",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"api",
+								"v1.0",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get product details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hostname}}/api/v1.0/products/get/{{product_uid}}",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"api",
+								"v1.0",
+								"products",
+								"get",
+								"{{product_uid}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "```\n* As a client, I want to see an overview of all the products, so I can choose which product I want\n* As a client, I want to view the details of a product, so I can see if the product satisfies my needs\n\n ```"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "hostname",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		},
+		{
+			"key": "app_user_role_uid",
+			"value": null,
+			"type": "string"
+		},
+		{
+			"key": "app_user_uid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "address_uid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "cart_uid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "product_uid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "order_uid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "cart_item_uid",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

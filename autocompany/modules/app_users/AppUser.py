@@ -1,6 +1,6 @@
 import uuid
 
-from django.db.models import Model, CharField, UUIDField, AutoField, OneToOneField, CASCADE, ForeignKey
+from django.db.models import Model, CharField, UUIDField, AutoField, CASCADE, ForeignKey
 
 from autocompany.modules.app_user_roles.AppUserRole import AppUserRole
 

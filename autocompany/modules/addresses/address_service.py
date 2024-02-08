@@ -24,7 +24,7 @@ def get_all(request):
             addresses = Address.objects.all()
 
         serializer = AddressSerializer(addresses, many=True)
-        return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+        return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
 
     except Address.DoesNotExist:
         return JsonResponse([], status=status.HTTP_204_NO_CONTENT)
@@ -46,7 +46,18 @@ def get_by_uid(request, uid):
 
 @api_view(['POST'])
 def post(request):
-    serializer = AddressSerializer(data=request.data)
+    request_data = request.data
+    app_user_uid = request_data['app_user']
+
+    if app_user_uid:
+        app_user = validate_object(AppUser, app_user_uid, 'AppUser')
+        if not app_user:
+            return app_user
+
+        request_data['app_user'] = app_user.id
+    print(request_data)
+
+    serializer = AddressSerializer(data=request_data)
 
     if serializer.is_valid():
         address = serializer.save()

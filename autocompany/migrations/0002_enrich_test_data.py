@@ -1,7 +1,8 @@
-from django.db import migrations
-from autocompany.modules.shared.enum.AppUserType import AppUserType
 import uuid
 
+from django.db import migrations
+
+from autocompany.modules.shared.enum.AppUserType import AppUserType
 from autocompany.modules.shared.enum.ProductCategory import ProductCategory
 
 
@@ -12,12 +13,14 @@ def enrich_test_data(apps, schema_editor):
     # TODO: Permission based operations are not available yet.
     app_user_role.objects.create(uid=uuid.uuid4(), role=AppUserType.ADMIN_USER.value, permissions=['*'])
     app_user_role.objects.create(uid=uuid.uuid4(), role=AppUserType.GUEST_USER.value, permissions=['read.*'])
-    product_owner_role = app_user_role.objects.create(uid=uuid.uuid4(), role=AppUserType.PRODUCT_OWNER.value, permissions=['*'])
+    product_owner_role = app_user_role.objects.create(uid=uuid.uuid4(), role=AppUserType.PRODUCT_OWNER.value,
+                                                      permissions=['*'])
     app_user_role.objects.create(uid=uuid.uuid4(), role=AppUserType.CUSTOMER.value, permissions=['*'])
 
     # Add product owners test data.
     app_user = apps.get_model('autocompany', 'AppUser')
-    product_owner = app_user.objects.create(uid=uuid.uuid4(), role=product_owner_role, name='Product Owner', email='pown@po.com')
+    product_owner = app_user.objects.create(uid=uuid.uuid4(), role=product_owner_role, name='Product Owner',
+                                            email='pown@po.com')
 
     # Enrich test products.
     product = apps.get_model('autocompany', 'Product')

@@ -1,4 +1,3 @@
-from rest_framework.fields import JSONField
 from rest_framework.serializers import ModelSerializer
 
 from autocompany.modules.app_users.AppUser import AppUser

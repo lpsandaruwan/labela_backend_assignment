@@ -1,5 +1,5 @@
-FROM python:3.10
-LABEL author='Label A'
+FROM python:3.11
+LABEL author='Label A, Lahiru Pahirage'
 
 WORKDIR /app
 
@@ -22,9 +22,9 @@ RUN ./manage.py collectstatic --noinput
 
 # Ops Parameters
 ENV WORKERS=2
-ENV PORT=80
+ENV PORT=8000
 ENV PYTHONUNBUFFERED=1
 
 EXPOSE ${PORT}
 
-CMD uwsgi --http :${PORT} --processes ${WORKERS} --static-map /static=/static --module autocompany.wsgi:application
+CMD uwsgi --http :${PORT} --processes ${WORKERS} --module autocompany.wsgi:application
