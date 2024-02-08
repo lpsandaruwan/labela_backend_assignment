@@ -13,9 +13,7 @@ def get_all(request):
         serializer = AppUserRoleSerializer(users, many=True)
         return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
     except AppUserRole.DoesNotExist:
-        return JsonResponse({
-            'Error': 'No user roles exist!'
-        }, status=status.HTTP_404_NOT_FOUND)
+        return JsonResponse([], status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['GET'])

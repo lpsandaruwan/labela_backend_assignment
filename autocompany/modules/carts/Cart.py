@@ -9,7 +9,7 @@ class Cart(Model):
     id = AutoField(primary_key=True)
     uid = UUIDField(unique=True, default=uuid.uuid4, editable=False)
     app_user = OneToOneField(AppUser, on_delete=CASCADE, related_name='cart_user')
-    total_price = DecimalField(default=0)
+    total_price = DecimalField(default=0, decimal_places=2, max_digits=20)
 
     class Meta:
         app_label = 'autocompany'
