@@ -3,6 +3,6 @@ env/
 .git
 .gitlab-ci.yml
 example.env
-MAIN_README.md
+docs/MAIN_README.md
 *Dockerfile
 docker-compose.yml
