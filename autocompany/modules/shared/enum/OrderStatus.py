@@ -6,6 +6,6 @@ class OrderStatus(StrEnum):
     PAYMENT_FAILED = 'payment_failed'
     PAYMENT_REQUIRED = "payment_required"
     TRANSACTION_SUCCESSFUL = "transaction_successful"
-    SHIPPED = "shipped"
+    DISPATCHED = "dispatched"
     CANCELLED = "cancelled"
     DELIVERED = "delivered"

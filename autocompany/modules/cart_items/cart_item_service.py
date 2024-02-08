@@ -37,7 +37,9 @@ def get_by_uid(request, uid):
     try:
         cart_item = CartItem.objects.get(uid=uid)
         serializer = CartItemSerializer(cart_item)
+
         return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+
     except CartItem.DoesNotExist:
         return JsonResponse({
             'Error': 'Cart item does not exist!'

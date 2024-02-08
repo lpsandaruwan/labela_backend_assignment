@@ -27,4 +27,5 @@ urlpatterns = [
     path(f"api/{API_VERSION}/", include('autocompany.modules.addresses.urls')),
     path(f"api/{API_VERSION}/", include('autocompany.modules.carts.urls')),
     path(f"api/{API_VERSION}/", include('autocompany.modules.cart_items.urls')),
+    path(f"api/{API_VERSION}/", include('autocompany.modules.orders.urls')),
 ]
