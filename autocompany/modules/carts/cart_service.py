@@ -2,24 +2,32 @@ from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import api_view
 
+from autocompany.modules.app_users.AppUser import AppUser
 from autocompany.modules.carts.Cart import Cart
 from autocompany.modules.carts.CartSerializer import CartSerializer
-from autocompany.modules.shared.validations import valid_app_user
+from autocompany.modules.shared.validations import validate_object
 
 
 @api_view(['GET'])
 def get_all(request):
-    carts = []
     try:
-        app_user = request.GET.get('app_user')
-        if app_user:
-            valid_user, result = valid_app_user(app_user)
-            if valid_user:
-                carts = Cart.objects.filter(owner=result['id'])
-        serializer = CartSerializer(carts)
+        app_user_uid = request.GET.get('app_user')
+
+        # If app_user UID is provided, filter carts by app_user
+        if app_user_uid:
+            app_user = validate_object(AppUser, app_user_uid, 'AppUser')
+            if not app_user:
+                return app_user
+
+            carts = Cart.objects.filter(owner=app_user)
+        else:
+            carts = Cart.objects.all()
+
+        serializer = CartSerializer(carts, many=True)
         return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+
     except Cart.DoesNotExist:
-        return JsonResponse(carts, status=status.HTTP_204_NO_CONTENT)
+        return JsonResponse(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['GET'])
@@ -27,7 +35,9 @@ def get_by_uid(request, uid):
     try:
         cart = Cart.objects.get(uid=uid)
         serializer = CartSerializer(cart)
+
         return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+
     except Cart.DoesNotExist:
         return JsonResponse({
             'Error': 'Cart does not exist!'
@@ -37,7 +47,9 @@ def get_by_uid(request, uid):
 @api_view(['POST'])
 def post(request):
     serializer = CartSerializer(data=request.data)
+
     if serializer.is_valid():
         cart = serializer.save()
         return JsonResponse(CartSerializer(cart).data, status=status.HTTP_201_CREATED)
+
     return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

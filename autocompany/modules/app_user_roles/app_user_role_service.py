@@ -11,7 +11,9 @@ def get_all(request):
     try:
         users = AppUserRole.objects.all()
         serializer = AppUserRoleSerializer(users, many=True)
+
         return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
+
     except AppUserRole.DoesNotExist:
         return JsonResponse([], status=status.HTTP_204_NO_CONTENT)
 
@@ -21,7 +23,9 @@ def get_by_uid(request, uid):
     try:
         user = AppUserRole.objects.get(uid=uid)
         serializer = AppUserRoleSerializer(user)
+
         return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+
     except AppUserRole.DoesNotExist:
         return JsonResponse({
             'Error': 'User role does not exist!'
