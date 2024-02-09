@@ -8,7 +8,6 @@ Ensure you have docker-compose installed. You can find installation instructions
 
 ### Running the Server
 ```shell
-Copy code
 # Prepare docker images.
 docker-compose build
 # To run the application,
@@ -23,7 +22,8 @@ docker-compose up -d
 > - Authentication is not enabled on APIs. User IDs are manually added to requests due to time constraints. Ideally, user data should be obtained from logged-in sessions.
 > - Dummy values are used for roles and permissions. User operations can be enhanced to restrict based on user role permissions.
 > - Product creation endpoints should be accessible only for admin and product owner roles.
-> - The Postman collection is organized into folders for the following user stories:
+
+The Postman collection is organized into folders for the following user stories:
 
 #### User Story 1
 > - As a company, I want all my products in a database, so I can offer them via our new platform to customers.
