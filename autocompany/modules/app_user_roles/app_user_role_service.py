@@ -8,14 +8,17 @@ from autocompany.modules.app_user_roles.AppUserRoleSerializer import AppUserRole
 
 @api_view(['GET'])
 def get_all(request):
+    print(request)
     try:
         users = AppUserRole.objects.all()
         serializer = AppUserRoleSerializer(users, many=True)
 
         return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
 
-    except AppUserRole.DoesNotExist:
-        return JsonResponse([], status=status.HTTP_204_NO_CONTENT)
+    except Exception as e:
+        return JsonResponse({
+            'Error': str(e)
+        }, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -26,7 +29,7 @@ def get_by_uid(request, uid):
 
         return JsonResponse(serializer.data, status=status.HTTP_200_OK)
 
-    except AppUserRole.DoesNotExist:
+    except Exception as e:
         return JsonResponse({
-            'Error': 'User role does not exist!'
+            'Error': str(e)
         }, status=status.HTTP_400_BAD_REQUEST)

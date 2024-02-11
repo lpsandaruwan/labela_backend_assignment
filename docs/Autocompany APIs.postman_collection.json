@@ -68,12 +68,12 @@
 					"response": []
 				},
 				{
-					"name": "Get products",
+					"name": "List products",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{hostname}}/api/v1.0/products",
+							"raw": "{{hostname}}/api/v1.0/products?page=2&per_page=1",
 							"host": [
 								"{{hostname}}"
 							],
@@ -81,6 +81,16 @@
 								"api",
 								"v1.0",
 								"products"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								},
+								{
+									"key": "per_page",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -101,15 +111,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{hostname}}/api/v1.0/carts/create",
+							"raw": "{{hostname}}/api/v1.0/carts",
 							"host": [
 								"{{hostname}}"
 							],
 							"path": [
 								"api",
 								"v1.0",
-								"carts",
-								"create"
+								"carts"
 							]
 						}
 					},
@@ -130,15 +139,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{hostname}}/api/v1.0/cartitems/create",
+							"raw": "{{hostname}}/api/v1.0/cartitems",
 							"host": [
 								"{{hostname}}"
 							],
 							"path": [
 								"api",
 								"v1.0",
-								"cartitems",
-								"create"
+								"cartitems"
 							]
 						}
 					},
@@ -156,7 +164,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{hostname}}/api/v1.0/cartitems/delete/{{cart_item_uid}}",
+							"raw": "{{hostname}}/api/v1.0/cartitems/{{cart_item_uid}}",
 							"host": [
 								"{{hostname}}"
 							],
@@ -164,7 +172,6 @@
 								"api",
 								"v1.0",
 								"cartitems",
-								"delete",
 								"{{cart_item_uid}}"
 							]
 						}
@@ -177,7 +184,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{hostname}}/api/v1.0/carts/get/{{cart_uid}}",
+							"raw": "{{hostname}}/api/v1.0/carts/{{cart_uid}}",
 							"host": [
 								"{{hostname}}"
 							],
@@ -185,7 +192,6 @@
 								"api",
 								"v1.0",
 								"carts",
-								"get",
 								"{{cart_uid}}"
 							]
 						}
@@ -238,15 +244,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{hostname}}/api/v1.0/addresses/create",
+							"raw": "{{hostname}}/api/v1.0/addresses",
 							"host": [
 								"{{hostname}}"
 							],
 							"path": [
 								"api",
 								"v1.0",
-								"addresses",
-								"create"
+								"addresses"
 							]
 						}
 					},
@@ -254,11 +259,8 @@
 				},
 				{
 					"name": "Create order",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -270,15 +272,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{hostname}}/api/v1.0/orders/create",
+							"raw": "{{hostname}}/api/v1.0/orders",
 							"host": [
 								"{{hostname}}"
 							],
 							"path": [
 								"api",
 								"v1.0",
-								"orders",
-								"create"
+								"orders"
 							]
 						}
 					},
@@ -296,7 +297,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{hostname}}/api/v1.0/products",
+							"raw": "{{hostname}}/api/v1.0/products?page=2&per_page=1",
 							"host": [
 								"{{hostname}}"
 							],
@@ -304,6 +305,16 @@
 								"api",
 								"v1.0",
 								"products"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								},
+								{
+									"key": "per_page",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -315,7 +326,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{hostname}}/api/v1.0/products/get/{{product_uid}}",
+							"raw": "{{hostname}}/api/v1.0/products/{{product_uid}}",
 							"host": [
 								"{{hostname}}"
 							],
@@ -323,7 +334,6 @@
 								"api",
 								"v1.0",
 								"products",
-								"get",
 								"{{product_uid}}"
 							]
 						}

@@ -67,5 +67,30 @@ To fulfill these needs:
 1. List all available products.
 2. Retrieve detailed information about individual products.
 
+#### API grocery
+
+1. GET `api/v1.0/app_user_roles` - get user roles.
+2. GET `api/v1.0/app_user_roles/<str:uid>` - get_user_role_by_uid
+3. POST `api/v1.0/app_users` - create user
+4. GET `api/v1.0/app_users/<str:uid>` - get user by uid
+5. PATCH `api/v1.0/app_users/<str:uid>` - update user by uid
+6. GET `api/v1.0/products` -  get products
+7. POST - `api/v1.0/products` - create product
+8. GET - `api/v1.0/products/<str:uid>` - get product by uid
+9. PATCH - `api/v1.0/products/<str:uid>` - update product by uid
+10. GET - `api/v1.0/addresses?app_user<str:uid>` - get app user addresses
+11. POST - `api/v1.0/addresses` - create address
+12. GET `api/v1.0/addresses/<str:uid>` - get address by uid
+13. GET `api/v1.0/carts?app_user=<str:uid>` - get app user carts
+14. POST `api/v1.0/carts` - create a cart
+15. GET `api/v1.0/carts/<str:uid>` - get cart
+16. GET `api/v1.0/cartitems?cart=<str:uid>` - get cart items for cart uid
+17. POST `api/v1.0/cartitems` - create a cart item
+18. GET `api/v1.0/cartitems/<str:uid>` - get cart item by uid
+19. GET `api/v1.0/orders?app_user=<str:uid>` - get orders by user uid
+20. POST `api/v1.0/orders` - create an order
+21. GET `api/v1.0/orders/<str:uid>` - get order by uid
+22. PATCH `api/v1.0/orders/<str:uid>` - update order by uid
+
 ### LICENSE
 MIT, 2024

@@ -1,9 +1,8 @@
 from django.urls import path
 
-from autocompany.modules.addresses.address_service import get_all, get_by_uid, post
+from autocompany.modules.addresses.address_service import get_all_or_create, get_by_uid
 
 urlpatterns = [
-    path('addresses', get_all, name='get_all'),
-    path('addresses/get/<str:uid>', get_by_uid, name='get_address_by_uid'),
-    path('addresses/create', post, name='create_address')
+    path('addresses', get_all_or_create, name='get_all_or_create_addresses'),
+    path('addresses/<str:uid>', get_by_uid, name='get_address_by_uid')
 ]

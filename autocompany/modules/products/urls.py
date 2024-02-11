@@ -1,10 +1,8 @@
 from django.urls import path
 
-from autocompany.modules.products.product_service import get_all, get_by_uid, post, patch_by_uid
+from autocompany.modules.products.product_service import get_or_create_products, get_or_update_product_by_uid
 
 urlpatterns = [
-    path('products', get_all, name='get_products'),
-    path('products/create', post, name='create_product'),
-    path('products/get/<str:uid>', get_by_uid, name='get_product_by_uid'),
-    path('products/update/<str:uid>', patch_by_uid, name='update_product'),
+    path('products', get_or_create_products, name='get_or_create_products'),
+    path('products/<str:uid>', get_or_update_product_by_uid, name='get_or_update_product_by_uid'),
 ]
